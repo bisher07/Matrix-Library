@@ -1,3 +1,4 @@
+#pragma once
 #include "Matrix.h"
 
 namespace MatrixOps
@@ -59,4 +60,43 @@ namespace MatrixOps
         return scaled_Matrix;
     }
 
+    template <typename T>
+    Matrix<T> transpose(const Matrix<T> &a)
+    {
+        int rows = a.getCols(), cols = a.getRows();
+        Matrix<T> transposed_Matrix(rows, cols);
+
+        for (int row = 0; row < rows; row++)
+        {
+            for (int col = 0; col < cols; col++)
+            {
+                transposed_Matrix(row, col) = a(col, row);
+            }
+        }
+
+        return transposed_Matrix;
+    }
+
+    template <typename T>
+    Matrix<T> multiply(const Matrix<T> &a, const Matrix<T> &b)
+    {
+        if (a.getCols() != b.getRows())
+            exit(1);
+
+        int rows = a.getRows(), cols = b.getCols();
+        Matrix<T> Product_Matrix(rows, cols, 0);
+
+        for (int row = 0; row < rows; row++)
+        {
+            for (int col = 0; col < cols; col++)
+            {
+                for (int i = 0; i < a.getCols(); i++)
+                {
+                    Product_Matrix(row, col) += (a(row, i) * b(i, col));
+                }
+            }
+        }
+
+        return Product_Matrix;
+    }
 }
