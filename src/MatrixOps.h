@@ -1,5 +1,6 @@
 #pragma once
 #include "Matrix.h"
+#include <algorithm>
 #include <cmath>
 
 namespace MatrixOps
@@ -195,5 +196,71 @@ namespace MatrixOps
             det *= -1;
 
         return det;
+    }
+
+    template <typename T>
+    Matrix<double> inverse(const Matrix<T> &a)
+    {
+        if (det(a) == 0)
+            exit(1);
+
+        int rows = a.getRows(), cols = 2 * a.getCols();
+        Matrix<double> augmented_Matrix(rows, cols);
+
+        // Copy data into augmented_Matrix.
+        for (int row = 0; row < rows; row++)
+        {
+            for (int col = 0; col < a.getCols(); col++)
+                augmented_Matrix(row, col) = a(row, col);
+
+            for (int col = a.getCols(); col < cols; col++)
+                augmented_Matrix(row, col) = 0;
+
+            augmented_Matrix(row, a.getCols() + row) = 1;
+        }
+
+        // obtaining REF in the left sided matrix.
+        for (int row = 0; row < rows; row++)
+        {
+            int maxRow = row;
+            for (int i = row + 1; i < rows; i++)
+                if (abs(augmented_Matrix(i, row)) > abs(augmented_Matrix(maxRow, row)))
+                    maxRow = i;
+
+            // swap
+            if (maxRow != row)
+                for (int col = 0; col < cols; col++)
+                    std::swap(augmented_Matrix(row, col), augmented_Matrix(maxRow, col));
+
+            double pivot = augmented_Matrix(row, row);
+
+            for (int col = 0; col < cols; col++)
+                augmented_Matrix(row, col) /= pivot;
+
+            for (int j = row + 1; j < rows; j++)
+            {
+                double factor = augmented_Matrix(j, row);
+                for (int col = row; col < cols; col++)
+                    augmented_Matrix(j, col) -= factor * augmented_Matrix(row, col);
+            }
+        }
+
+        // obtaining RREF in the left sided matrix.
+        for (int row = rows - 1; row > 0; row--)
+        {
+            for (int j = row - 1; j >= 0; j--)
+            {
+                double factor = augmented_Matrix(j, row);
+                for (int col = 0; col < cols; col++)
+                    augmented_Matrix(j, col) -= factor * augmented_Matrix(row, col);
+            }
+        }
+
+        Matrix<double> inverse_Matrix(rows, rows);
+        for (int row = 0; row < rows; row++)
+            for (int col = 0; col < rows; col++)
+                inverse_Matrix(row, col) = augmented_Matrix(row, a.getCols() + col);
+
+        return inverse_Matrix;
     }
 }
