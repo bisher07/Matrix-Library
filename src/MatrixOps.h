@@ -1,5 +1,6 @@
 #pragma once
 #include "Matrix.h"
+#include <cmath>
 
 namespace MatrixOps
 {
@@ -140,5 +141,59 @@ namespace MatrixOps
         }
 
         return reduced_Matrix;
+    }
+
+    template <typename T>
+    double det(const Matrix<T> &a)
+    {
+        if (a.getRows() != a.getCols())
+            exit(1);
+
+        int rows = a.getRows(), cols = a.getCols(), counter = 0;
+        Matrix<double> reduced_Matrix(rows, cols);
+
+        // Copy a into reduced_Matrix.
+        for (int row = 0; row < rows; row++)
+            for (int col = 0; col < cols; col++)
+                reduced_Matrix(row, col) = a(row, col);
+
+        for (int row = 0; row < rows; row++)
+        {
+            int maxRow = row;
+            for (int i = row + 1; i < rows; i++)
+                if (abs(reduced_Matrix(i, row)) > abs(reduced_Matrix(maxRow, row)))
+                    maxRow = i;
+
+            // swap
+            if (maxRow != row)
+            {
+                for (int col = 0; col < cols; col++)
+                    std::swap(reduced_Matrix(row, col), reduced_Matrix(maxRow, col));
+                counter++;
+            }
+
+            double pivot = reduced_Matrix(row, row);
+
+            if (pivot == 0)
+                continue;
+
+            for (int j = row + 1; j < rows; j++)
+            {
+                double factor = reduced_Matrix(j, row) / pivot;
+                for (int col = row; col < cols; col++)
+                    reduced_Matrix(j, col) -= factor * reduced_Matrix(row, col);
+            }
+        }
+
+        double det = 1;
+        for (int row = 0; row < rows; row++)
+        {
+            det *= reduced_Matrix(row, row);
+        }
+
+        if (counter % 2 != 0)
+            det *= -1;
+
+        return det;
     }
 }
