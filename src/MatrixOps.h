@@ -100,7 +100,8 @@ namespace MatrixOps
         return Product_Matrix;
     }
 
-    Matrix<double> rowEchelon(const Matrix<double> &a)
+    template <typename T>
+    Matrix<double> rowEchelon(const Matrix<T> &a)
     {
         if (a.getRows() != a.getCols())
             exit(1);
@@ -115,26 +116,26 @@ namespace MatrixOps
 
         for (int row = 0; row < rows; row++)
         {
+            int maxRow = row;
+            for (int i = row + 1; i < rows; i++)
+                if (abs(reduced_Matrix(i, row)) > abs(reduced_Matrix(maxRow, row)))
+                    maxRow = i;
+
+            // swap
+            if (maxRow != row)
+                for (int col = 0; col < cols; col++)
+                    std::swap(reduced_Matrix(row, col), reduced_Matrix(maxRow, col));
+
             double pivot = reduced_Matrix(row, row);
 
             if (pivot == 0)
-            {
-                // skip this row, pivot is already 0
                 continue;
-            }
-
-            for (int col = row; col < cols; col++)
-            {
-                reduced_Matrix(row, col) /= pivot;
-            }
 
             for (int j = row + 1; j < rows; j++)
             {
-                double factor = reduced_Matrix(j, row);
+                double factor = reduced_Matrix(j, row) / pivot;
                 for (int col = row; col < cols; col++)
-                {
-                    reduced_Matrix(j, col) += reduced_Matrix(row, col) * -1 * factor;
-                }
+                    reduced_Matrix(j, col) -= factor * reduced_Matrix(row, col);
             }
         }
 

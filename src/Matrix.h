@@ -4,7 +4,6 @@
 #include <iomanip>
 
 template <typename T>
-
 class Matrix
 {
 public:
