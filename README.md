@@ -11,12 +11,14 @@ A lightweight C++ matrix library built from scratch using templates and the `Mat
 - Row echelon form (with partial pivoting)
 - Determinant
 - Matrix inverse (Gauss-Jordan elimination)
+- Matrix power (positive, zero, and negative exponents)
+- Utility checks: `isSquare`, `isSymmetric`, `isIdentity`, `isSingular`
 
 ## Project Structure
 ```
 MatrixLib/
 ├── src/
-│   ├── Matrix.h        ← Matrix class (constructors, element access, print)
+│   ├── Matrix.h        ← Matrix class (constructors, element access, print, utility checks)
 │   ├── MatrixOps.h     ← All operations as free functions in MatrixOps namespace
 │   └── main.cpp        ← Test driver
 ├── bin/                ← Compiled binary (ignored by git)
@@ -46,11 +48,16 @@ a(2,0)=0; a(2,1)=1; a(2,2)=2;
 Matrix<double> inv = inverse(a);
 double d = det(a);
 Matrix<double> ref = rowEchelon(a);
+Matrix<double> squared = pow(a, 2);
+bool singular = isSingular(a);
+
+std::cout << a.isSymmetric(); // utility checks on Matrix object
 ```
 
 ## Notes
 
 - `scalarMultiply` requires the scalar to match the matrix element type (e.g. `Matrix<double>` requires a `double` scalar, use casting if needed: `(double)2`)
-- `rowEchelon`, `det`, and `inverse` require floating point types (`double` or `float`)
-- Singular matrices (det = 0) will trigger `exit(1)` in `inverse`
+- `rowEchelon`, `det`, `inverse`, and `pow` with negative exponents require floating point types (`double` or `float`)
+- Singular matrices (det = 0) will trigger `exit(1)` in `inverse` and negative `pow`
 - Near-zero floating point values may appear in results due to standard IEEE 754 precision limits
+- Matrices that are not invertible (singular) cannot be raised to a negative power and will trigger `exit(1)`
