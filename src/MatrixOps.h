@@ -263,4 +263,39 @@ namespace MatrixOps
 
         return inverse_Matrix;
     }
+
+    template <typename T>
+    bool isSingular(const Matrix<T> &a)
+    {
+        return det(a) == 0;
+    }
+
+    template <typename T>
+    Matrix<double> pow(const Matrix<T> &a, int power)
+    {
+        Matrix<double> matrix(a.getRows(), a.getCols(), 0);
+
+        if (power == 0)
+            for (int row = 0; row < matrix.getRows(); row++)
+                matrix(row, row) = 1;
+
+        else if (power > 0)
+        {
+            matrix = a;
+            for (int i = 1; i < power; i++)
+                matrix = multiply(matrix, a);
+        }
+
+        else
+        {
+            if (det(a) == 0)
+                exit(1);
+
+            matrix = inverse(a);
+            for (int i = -1; i > power; i--)
+                matrix = multiply(matrix, inverse(a));
+        }
+
+        return matrix;
+    }
 }
