@@ -13,6 +13,9 @@ A lightweight C++ matrix library built from scratch using templates and the `Mat
 - Matrix inverse (Gauss-Jordan elimination)
 - Matrix power (positive, zero, and negative exponents)
 - Utility checks: `isSquare`, `isSymmetric`, `isIdentity`, `isSingular`
+- `trace()` — sum of diagonal elements
+- `fill(value)` — fill entire matrix with a value
+- `operator==` — compare two matrices for equality
 
 ## Project Structure
 ```
@@ -23,7 +26,7 @@ MatrixLib/
 │   └── main.cpp        ← Test driver
 ├── bin/                ← Compiled binary (ignored by git)
 └── .vscode/
-    └── tasks.json      ← VS Code build config
+└── tasks.json      ← VS Code build config
 ```
 
 ## Building
@@ -50,8 +53,11 @@ double d = det(a);
 Matrix<double> ref = rowEchelon(a);
 Matrix<double> squared = pow(a, 2);
 bool singular = isSingular(a);
+double t = trace(a);
 
-std::cout << a.isSymmetric(); // utility checks on Matrix object
+a.fill(0.0);
+std::cout << a.isSymmetric();  // utility checks on Matrix object
+std::cout << (a == b);         // equality check
 ```
 
 ## Notes
@@ -59,5 +65,6 @@ std::cout << a.isSymmetric(); // utility checks on Matrix object
 - `scalarMultiply` requires the scalar to match the matrix element type (e.g. `Matrix<double>` requires a `double` scalar, use casting if needed: `(double)2`)
 - `rowEchelon`, `det`, `inverse`, and `pow` with negative exponents require floating point types (`double` or `float`)
 - Singular matrices (det = 0) will trigger `exit(1)` in `inverse` and negative `pow`
-- Near-zero floating point values may appear in results due to standard IEEE 754 precision limits
 - Matrices that are not invertible (singular) cannot be raised to a negative power and will trigger `exit(1)`
+- `trace()` requires a square matrix, otherwise triggers `exit(1)`
+- Near-zero floating point values may appear in results due to standard IEEE 754 precision limits
