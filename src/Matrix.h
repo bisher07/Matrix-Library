@@ -78,6 +78,26 @@ public:
         return true;
     }
 
+    T trace() const
+    {
+        T sum = 0;
+
+        if (!isSquare())
+            exit(1);
+
+        for (int row = 0; row < matrix_Rows; row++)
+            sum += matrix_Data[row][row];
+
+        return sum;
+    }
+
+    void fill(T value)
+    {
+        for (int row = 0; row < matrix_Rows; row++)
+            for (int col = 0; col < matrix_Cols; col++)
+                matrix_Data[row][col] = value;
+    }
+
     void print() const
     {
         for (int row = 0; row < matrix_Rows; row++)
