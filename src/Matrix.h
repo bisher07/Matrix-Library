@@ -22,6 +22,19 @@ public:
         return matrix_Data[r][c];
     }
 
+    bool operator==(const Matrix<T> &a) const
+    {
+        if (a.getRows() != matrix_Rows || a.getCols() != matrix_Cols)
+            return false;
+
+        for (int row = 0; row < matrix_Rows; row++)
+            for (int col = 0; col < matrix_Cols; col++)
+                if (a(row, col) != matrix_Data[row][col])
+                    return false;
+
+        return true;
+    }
+
     int getRows() const
     {
         return matrix_Rows;
