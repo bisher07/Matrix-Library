@@ -35,6 +35,79 @@ public:
         return true;
     }
 
+    Matrix<T> operator*(const Matrix<T> &a)
+    {
+        if (matrix_Cols != a.getRows())
+            exit(1);
+
+        int rows = matrix_Rows, cols = a.getCols();
+        Matrix<T> Product_Matrix(rows, cols, 0);
+
+        for (int row = 0; row < rows; row++)
+        {
+            for (int col = 0; col < cols; col++)
+            {
+                for (int i = 0; i < matrix_Cols; i++)
+                {
+                    Product_Matrix(row, col) += (matrix_Data[row][i] * a(i, col));
+                }
+            }
+        }
+
+        return Product_Matrix;
+    }
+
+    Matrix<T> operator*(T scalar)
+    {
+        Matrix<T> scaled_Matrix(matrix_Rows, matrix_Cols);
+
+        for (int row = 0; row < matrix_Rows; row++)
+        {
+            for (int col = 0; col < matrix_Cols; col++)
+            {
+                scaled_Matrix(row, col) = matrix_Data[row][col] * scalar;
+            }
+        }
+
+        return scaled_Matrix;
+    }
+
+    Matrix<T> operator+(const Matrix<T> &a)
+    {
+        if (matrix_Rows != a.getRows() || matrix_Cols != a.getCols())
+            exit(1);
+
+        Matrix<T> sum_Matrix(matrix_Rows, matrix_Cols);
+
+        for (int row = 0; row < matrix_Rows; row++)
+        {
+            for (int col = 0; col < matrix_Cols; col++)
+            {
+                sum_Matrix(row, col) = matrix_Data[row][col] + a(row, col);
+            }
+        }
+
+        return sum_Matrix;
+    }
+
+    Matrix<T> operator-(const Matrix<T> &a)
+    {
+        if (matrix_Rows != a.getRows() || matrix_Cols != a.getCols())
+            exit(1);
+
+        Matrix<T> sub_Matrix(matrix_Rows, matrix_Cols);
+
+        for (int row = 0; row < matrix_Rows; row++)
+        {
+            for (int col = 0; col < matrix_Cols; col++)
+            {
+                sub_Matrix(row, col) = matrix_Data[row][col] - a(row, col);
+            }
+        }
+
+        return sub_Matrix;
+    }
+
     int getRows() const
     {
         return matrix_Rows;

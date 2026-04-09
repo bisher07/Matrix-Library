@@ -68,7 +68,7 @@ int main()
     std::cout << "\nE^2 (should equal E * E):\n";
     pow(e, 2).print();
     std::cout << "\nE * E (verify):\n";
-    multiply(e, e).print();
+    (e * e).print();
 
     // Test 4: power of -1 should equal inverse
     std::cout << "\nE^-1 (should equal inverse):\n";
