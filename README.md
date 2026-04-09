@@ -15,6 +15,7 @@ A lightweight C++ matrix library built from scratch using templates and the `Mat
 - Utility checks: `isSquare`, `isSymmetric`, `isIdentity`, `isSingular`
 - `trace()` — sum of diagonal elements
 - `fill(value)` — fill entire matrix with a value
+- `rank()` — number of linearly independent rows
 
 ## Project Structure
 ```
@@ -55,6 +56,7 @@ Matrix product = a * a;
 Matrix scaled = a * 2.0;
 bool singular = isSingular(a);
 double t = trace(a);
+int r = rank(a);
 
 a.fill(0.0);
 std::cout << a.isSymmetric();  // utility checks on Matrix object
@@ -68,4 +70,5 @@ std::cout << (a == b);         // equality check
 - `rowEchelon`, `det`, `inverse`, and `pow` with negative exponents require floating point types (`double` or `float`)
 - Singular matrices (det = 0) will trigger `exit(1)` in `inverse` and negative `pow`
 - `trace()` requires a square matrix, otherwise triggers `exit(1)`
+- `rank()` works on any matrix including non-square
 - Near-zero floating point values may appear in results due to standard IEEE 754 precision limits
