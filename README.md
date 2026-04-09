@@ -6,7 +6,7 @@ A lightweight C++ matrix library built from scratch using templates and the `Mat
 
 - Generic matrix type via C++ templates (`int`, `float`, `double`)
 - Element access via `operator()(row, col)`
-- Arithmetic: addition, subtraction, scalar multiplication, matrix multiplication
+- Arithmetic operators: `+`, `-`, `*` (matrix and scalar), `==`
 - Transpose
 - Row echelon form (with partial pivoting)
 - Determinant
@@ -15,7 +15,6 @@ A lightweight C++ matrix library built from scratch using templates and the `Mat
 - Utility checks: `isSquare`, `isSymmetric`, `isIdentity`, `isSingular`
 - `trace()` — sum of diagonal elements
 - `fill(value)` — fill entire matrix with a value
-- `operator==` — compare two matrices for equality
 
 ## Project Structure
 ```
@@ -43,15 +42,17 @@ g++ -std=c++17 src/main.cpp -o bin/main.exe
 #include "MatrixOps.h"
 using namespace MatrixOps;
 
-Matrix<double> a(3, 3);
+Matrix a(3, 3);
 a(0,0)=2; a(0,1)=1; a(0,2)=0;
 a(1,0)=1; a(1,1)=3; a(1,2)=1;
 a(2,0)=0; a(2,1)=1; a(2,2)=2;
 
-Matrix<double> inv = inverse(a);
+Matrix inv = inverse(a);
 double d = det(a);
-Matrix<double> ref = rowEchelon(a);
-Matrix<double> squared = pow(a, 2);
+Matrix ref = rowEchelon(a);
+Matrix squared = pow(a, 2);
+Matrix product = a * a;
+Matrix scaled = a * 2.0;
 bool singular = isSingular(a);
 double t = trace(a);
 
@@ -62,9 +63,9 @@ std::cout << (a == b);         // equality check
 
 ## Notes
 
-- `scalarMultiply` requires the scalar to match the matrix element type (e.g. `Matrix<double>` requires a `double` scalar, use casting if needed: `(double)2`)
+- Arithmetic operators (`+`, `-`, `*`) require matching matrix dimensions, otherwise triggers `exit(1)`
+- Scalar multiplication requires the scalar to match the matrix element type — use casting if needed: `a * (double)2`
 - `rowEchelon`, `det`, `inverse`, and `pow` with negative exponents require floating point types (`double` or `float`)
 - Singular matrices (det = 0) will trigger `exit(1)` in `inverse` and negative `pow`
-- Matrices that are not invertible (singular) cannot be raised to a negative power and will trigger `exit(1)`
 - `trace()` requires a square matrix, otherwise triggers `exit(1)`
 - Near-zero floating point values may appear in results due to standard IEEE 754 precision limits
