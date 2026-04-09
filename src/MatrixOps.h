@@ -25,9 +25,6 @@ namespace MatrixOps
     template <typename T>
     Matrix<double> rowEchelon(const Matrix<T> &a)
     {
-        if (a.getRows() != a.getCols())
-            exit(1);
-
         int rows = a.getRows(), cols = a.getCols();
         Matrix<double> reduced_Matrix(rows, cols);
 
@@ -38,6 +35,8 @@ namespace MatrixOps
 
         for (int row = 0; row < rows; row++)
         {
+            if (row >= cols) // prevent out of bounds for non-square matrices
+                break;
             int maxRow = row;
             for (int i = row + 1; i < rows; i++)
                 if (abs(reduced_Matrix(i, row)) > abs(reduced_Matrix(maxRow, row)))
@@ -67,7 +66,7 @@ namespace MatrixOps
     template <typename T>
     double det(const Matrix<T> &a)
     {
-        if (a.getRows() != a.getCols())
+        if (!a.isSquare())
             exit(1);
 
         int rows = a.getRows(), cols = a.getCols(), counter = 0;
@@ -217,5 +216,29 @@ namespace MatrixOps
         }
 
         return matrix;
+    }
+
+    template <typename T>
+    int rank(Matrix<T> a)
+    {
+        int counter = 0;
+        bool allZero;
+
+        a = rowEchelon(a);
+
+        for (int row = 0; row < a.getRows(); row++)
+        {
+            allZero = true;
+            for (int col = 0; col < a.getCols(); col++)
+            {
+                if (a(row, col) != 0)
+                    allZero = false;
+            }
+
+            if (!allZero)
+                counter++;
+        }
+
+        return counter;
     }
 }
