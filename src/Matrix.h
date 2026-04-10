@@ -35,6 +35,47 @@ public:
         return true;
     }
 
+    Matrix<T> &operator+=(const Matrix<T> &a)
+    {
+        if (matrix_Rows != a.getRows() || matrix_Cols != a.getCols())
+            exit(1);
+
+        for (int row = 0; row < matrix_Rows; row++)
+            for (int col = 0; col < matrix_Cols; col++)
+                matrix_Data[row][col] += a(row, col);
+
+        return *this;
+    }
+
+    Matrix<T> &operator-=(const Matrix<T> &a)
+    {
+        if (matrix_Rows != a.getRows() || matrix_Cols != a.getCols())
+            exit(1);
+
+        for (int row = 0; row < matrix_Rows; row++)
+            for (int col = 0; col < matrix_Cols; col++)
+                matrix_Data[row][col] -= a(row, col);
+
+        return *this;
+    }
+
+    Matrix<T> &operator*=(const Matrix<T> &a)
+    {
+        if (matrix_Cols != a.getRows())
+            exit(1);
+
+        *this = *this * a;
+
+        return *this;
+    }
+
+    Matrix<T> &operator*=(T scalar)
+    {
+        *this = *this * scalar;
+
+        return *this;
+    }
+
     Matrix<T> operator*(const Matrix<T> &a)
     {
         if (matrix_Cols != a.getRows())

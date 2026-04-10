@@ -163,5 +163,56 @@ int main()
     std::cout << "\n=== Matrix G (filled with 7) ===\n";
     g.print();
 
+    // Compound assignment operators
+    Matrix<double> h(2, 2);
+    h(0, 0) = 1;
+    h(0, 1) = 2;
+    h(1, 0) = 3;
+    h(1, 1) = 4;
+
+    Matrix<double> k(2, 2);
+    k(0, 0) = 5;
+    k(0, 1) = 6;
+    k(1, 0) = 7;
+    k(1, 1) = 8;
+
+    std::cout << "\n=== Compound Assignment Operators (H and K) ===\n";
+
+    std::cout << "\n--- H before +=  ---\n";
+    h.print();
+    h += k;
+    std::cout << "\n--- H += K (expected: E + F result) ---\n";
+    h.print();
+
+    // reset h
+    h(0, 0) = 1;
+    h(0, 1) = 2;
+    h(1, 0) = 3;
+    h(1, 1) = 4;
+
+    h -= k;
+    std::cout << "\n--- H -= K (expected: E - F result) ---\n";
+    h.print();
+
+    // reset h
+    h(0, 0) = 1;
+    h(0, 1) = 2;
+    h(1, 0) = 3;
+    h(1, 1) = 4;
+
+    h *= k;
+    std::cout << "\n--- H *= K (expected: E * F result) ---\n";
+    h.print();
+
+    // reset h
+    h(0, 0) = 1;
+    h(0, 1) = 2;
+    h(1, 0) = 3;
+    h(1, 1) = 4;
+
+    h *= 2.0;
+    std::cout << "\n--- H *= 2.0 (expected: E * 2.0 result) ---\n";
+    h.print();
+
     return 0;
 }
