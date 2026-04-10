@@ -22,6 +22,24 @@ public:
         return matrix_Data[r][c];
     }
 
+    // Write access with bounds checking: a.at(0,1) = 5.0;
+    T &at(int r, int c)
+    {
+        if (r < 0 || r >= matrix_Rows || c < 0 || c >= matrix_Cols)
+            exit(1);
+
+        return matrix_Data[r][c];
+    }
+
+    // Read access with bounds checking: double x = a.at(0,1);
+    const T &at(int r, int c) const
+    {
+        if (r < 0 || r >= matrix_Rows || c < 0 || c >= matrix_Cols)
+            exit(1);
+
+        return matrix_Data[r][c];
+    }
+
     bool operator==(const Matrix<T> &a) const
     {
         if (a.getRows() != matrix_Rows || a.getCols() != matrix_Cols)
