@@ -8,8 +8,16 @@ template <typename T>
 class Matrix
 {
 public:
-    Matrix(int rows, int cols) : matrix_Rows(rows), matrix_Cols(cols), matrix_Data(rows, std::vector<T>(cols, 0)) {}
-    Matrix(int rows, int cols, T value) : matrix_Rows(rows), matrix_Cols(cols), matrix_Data(rows, std::vector<T>(cols, value)) {}
+    Matrix(int rows, int cols) : matrix_Rows(rows), matrix_Cols(cols), matrix_Data(rows, std::vector<T>(cols, 0))
+    {
+        if (rows <= 0 || cols <= 0)
+            throw std::invalid_argument("Matrix dimensions must be positive.");
+    }
+    Matrix(int rows, int cols, T value) : matrix_Rows(rows), matrix_Cols(cols), matrix_Data(rows, std::vector<T>(cols, value))
+    {
+        if (rows <= 0 || cols <= 0)
+            throw std::invalid_argument("Matrix dimensions must be positive.");
+    }
 
     // for writing: a(0,1) = 5.0;
     T &operator()(int r, int c)
