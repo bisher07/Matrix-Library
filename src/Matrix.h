@@ -95,7 +95,7 @@ public:
         return *this;
     }
 
-    Matrix<T> operator*(const Matrix<T> &a)
+    Matrix<T> operator*(const Matrix<T> &a) const
     {
         if (matrix_Cols != a.getRows())
             throw std::invalid_argument("Matrix dimensions don't match for multiplication.");
@@ -117,7 +117,7 @@ public:
         return Product_Matrix;
     }
 
-    Matrix<T> operator*(T scalar)
+    Matrix<T> operator*(T scalar) const
     {
         Matrix<T> scaled_Matrix(matrix_Rows, matrix_Cols);
 
@@ -132,7 +132,7 @@ public:
         return scaled_Matrix;
     }
 
-    Matrix<T> operator+(const Matrix<T> &a)
+    Matrix<T> operator+(const Matrix<T> &a) const
     {
         if (matrix_Rows != a.getRows() || matrix_Cols != a.getCols())
             throw std::invalid_argument("Matrix dimensions don't match.");
@@ -150,7 +150,7 @@ public:
         return sum_Matrix;
     }
 
-    Matrix<T> operator-(const Matrix<T> &a)
+    Matrix<T> operator-(const Matrix<T> &a) const
     {
         if (matrix_Rows != a.getRows() || matrix_Cols != a.getCols())
             throw std::invalid_argument("Matrix dimensions don't match.");
@@ -249,3 +249,9 @@ private:
 
     int matrix_Rows, matrix_Cols;
 };
+
+template <typename T>
+Matrix<T> operator*(T scalar, const Matrix<T> &a)
+{
+    return a * scalar;
+}
