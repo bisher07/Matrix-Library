@@ -68,10 +68,11 @@ std::cout << (a == b);         // equality check
 ## Notes
 
 - `operator()` provides unchecked element access for performance; use `at()` for safe bounds-checked access
-- Arithmetic operators (`+`, `-`, `*`) require matching matrix dimensions, otherwise triggers `exit(1)`
+- Arithmetic operators (`+`, `-`, `*`) throw `std::invalid_argument` if dimensions don't match
 - Scalar multiplication requires the scalar to match the matrix element type — use casting if needed: `a * (double)2`
 - `rowEchelon`, `det`, `inverse`, and `pow` with negative exponents require floating point types (`double` or `float`)
-- Singular matrices (det = 0) will trigger `exit(1)` in `inverse` and negative `pow`
-- `trace()` requires a square matrix, otherwise triggers `exit(1)`
+- `inverse()` and negative `pow()` throw `std::invalid_argument` if the matrix is singular
+- `trace()` throws `std::invalid_argument` if the matrix is not square
+- `at()` throws `std::out_of_range` if the index is out of bounds
 - `rank()` works on any matrix including non-square
 - Near-zero floating point values may appear in results due to standard IEEE 754 precision limits
