@@ -214,5 +214,72 @@ int main()
     std::cout << "\n--- H *= 2.0 (expected: E * 2.0 result) ---\n";
     h.print();
 
+    // Exception handling tests
+    std::cout << "\n=== Exception Handling Tests ===\n";
+
+    // Test 1: dimension mismatch in addition
+    try
+    {
+        Matrix<double> x(2, 2);
+        Matrix<double> y(3, 3);
+        x + y;
+    }
+    catch (const std::invalid_argument &e)
+    {
+        std::cout << "Caught: " << e.what() << "\n";
+    }
+
+    // Test 2: singular matrix inverse
+    try
+    {
+        Matrix<double> x(2, 2);
+        x(0, 0) = 1;
+        x(0, 1) = 2;
+        x(1, 0) = 2;
+        x(1, 1) = 4;
+        inverse(x);
+    }
+    catch (const std::invalid_argument &e)
+    {
+        std::cout << "Caught: " << e.what() << "\n";
+    }
+
+    // Test 3: det on non-square matrix
+    try
+    {
+        Matrix<double> x(2, 3);
+        det(x);
+    }
+    catch (const std::invalid_argument &e)
+    {
+        std::cout << "Caught: " << e.what() << "\n";
+    }
+
+    // Test 4: index out of bounds with at()
+    try
+    {
+        Matrix<double> x(2, 2);
+        x.at(5, 5);
+    }
+    catch (const std::out_of_range &e)
+    {
+        std::cout << "Caught: " << e.what() << "\n";
+    }
+
+    // Test 5: negative power on singular matrix
+    try
+    {
+        Matrix<double> x(2, 2);
+        x(0, 0) = 1;
+        x(0, 1) = 2;
+        x(1, 0) = 2;
+        x(1, 1) = 4;
+        pow(x, -2);
+    }
+    catch (const std::invalid_argument &e)
+    {
+        std::cout << "Caught: " << e.what() << "\n";
+    }
+
     return 0;
 }

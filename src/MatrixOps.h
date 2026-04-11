@@ -2,6 +2,7 @@
 #include "Matrix.h"
 #include <algorithm>
 #include <cmath>
+#include <stdexcept>
 
 namespace MatrixOps
 {
@@ -67,7 +68,7 @@ namespace MatrixOps
     double det(const Matrix<T> &a)
     {
         if (!a.isSquare())
-            exit(1);
+            throw std::invalid_argument("Matrix must be square.");
 
         int rows = a.getRows(), cols = a.getCols(), counter = 0;
         Matrix<double> reduced_Matrix(rows, cols);
@@ -121,7 +122,7 @@ namespace MatrixOps
     Matrix<double> inverse(const Matrix<T> &a)
     {
         if (det(a) == 0)
-            exit(1);
+            throw std::invalid_argument("Matrix is singular.");
 
         int rows = a.getRows(), cols = 2 * a.getCols();
         Matrix<double> augmented_Matrix(rows, cols);
@@ -208,7 +209,7 @@ namespace MatrixOps
         else
         {
             if (det(a) == 0)
-                exit(1);
+                throw std::invalid_argument("Matrix is singular, cannot raise to negative power.");
 
             matrix = inverse(a);
             for (int i = -1; i > power; i--)

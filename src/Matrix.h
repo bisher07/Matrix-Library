@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <iomanip>
+#include <stdexcept>
 
 template <typename T>
 class Matrix
@@ -26,7 +27,7 @@ public:
     T &at(int r, int c)
     {
         if (r < 0 || r >= matrix_Rows || c < 0 || c >= matrix_Cols)
-            exit(1);
+            throw std::out_of_range("Index out of bounds.");
 
         return matrix_Data[r][c];
     }
@@ -35,7 +36,7 @@ public:
     const T &at(int r, int c) const
     {
         if (r < 0 || r >= matrix_Rows || c < 0 || c >= matrix_Cols)
-            exit(1);
+            throw std::out_of_range("Index out of bounds.");
 
         return matrix_Data[r][c];
     }
@@ -56,7 +57,7 @@ public:
     Matrix<T> &operator+=(const Matrix<T> &a)
     {
         if (matrix_Rows != a.getRows() || matrix_Cols != a.getCols())
-            exit(1);
+            throw std::invalid_argument("Matrix dimensions don't match.");
 
         for (int row = 0; row < matrix_Rows; row++)
             for (int col = 0; col < matrix_Cols; col++)
@@ -68,7 +69,7 @@ public:
     Matrix<T> &operator-=(const Matrix<T> &a)
     {
         if (matrix_Rows != a.getRows() || matrix_Cols != a.getCols())
-            exit(1);
+            throw std::invalid_argument("Matrix dimensions don't match.");
 
         for (int row = 0; row < matrix_Rows; row++)
             for (int col = 0; col < matrix_Cols; col++)
@@ -80,7 +81,7 @@ public:
     Matrix<T> &operator*=(const Matrix<T> &a)
     {
         if (matrix_Cols != a.getRows())
-            exit(1);
+            throw std::invalid_argument("Matrix dimensions don't match for multiplication.");
 
         *this = *this * a;
 
@@ -97,7 +98,7 @@ public:
     Matrix<T> operator*(const Matrix<T> &a)
     {
         if (matrix_Cols != a.getRows())
-            exit(1);
+            throw std::invalid_argument("Matrix dimensions don't match for multiplication.");
 
         int rows = matrix_Rows, cols = a.getCols();
         Matrix<T> Product_Matrix(rows, cols, 0);
@@ -134,7 +135,7 @@ public:
     Matrix<T> operator+(const Matrix<T> &a)
     {
         if (matrix_Rows != a.getRows() || matrix_Cols != a.getCols())
-            exit(1);
+            throw std::invalid_argument("Matrix dimensions don't match.");
 
         Matrix<T> sum_Matrix(matrix_Rows, matrix_Cols);
 
@@ -152,7 +153,7 @@ public:
     Matrix<T> operator-(const Matrix<T> &a)
     {
         if (matrix_Rows != a.getRows() || matrix_Cols != a.getCols())
-            exit(1);
+            throw std::invalid_argument("Matrix dimensions don't match.");
 
         Matrix<T> sub_Matrix(matrix_Rows, matrix_Cols);
 
@@ -215,7 +216,7 @@ public:
         T sum = 0;
 
         if (!isSquare())
-            exit(1);
+            throw std::invalid_argument("Matrix must be square.");
 
         for (int row = 0; row < matrix_Rows; row++)
             sum += matrix_Data[row][row];
