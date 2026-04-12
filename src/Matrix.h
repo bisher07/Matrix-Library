@@ -239,21 +239,9 @@ public:
                 matrix_Data[row][col] = value;
     }
 
-    void print() const
-    {
-        for (int row = 0; row < matrix_Rows; row++)
-        {
-            for (int col = 0; col < matrix_Cols; col++)
-            {
-                std::cout << std::setw(8) << matrix_Data[row][col];
-            }
-
-            std::cout << std::endl;
-        }
-    }
-
 private:
-    std::vector<std::vector<T>> matrix_Data;
+    std::vector<std::vector<T>>
+        matrix_Data;
 
     int matrix_Rows, matrix_Cols;
 };
@@ -262,4 +250,18 @@ template <typename T>
 Matrix<T> operator*(T scalar, const Matrix<T> &a)
 {
     return a * scalar;
+}
+
+template <typename T>
+std::ostream &operator<<(std::ostream &out, const Matrix<T> &a)
+{
+    for (int row = 0; row < a.getRows(); row++)
+    {
+        for (int col = 0; col < a.getCols(); col++)
+            out << std::setw(8) << a(row, col);
+
+        out << std::endl;
+    }
+
+    return out;
 }

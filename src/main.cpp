@@ -17,34 +17,34 @@ int main()
     a(2, 2) = 2;
 
     std::cout << "=== Matrix A ===\n";
-    a.print();
+    std::cout << a;
 
     std::cout << "\n--- transpose(A) ---\n";
-    transpose(a).print();
+    std::cout << transpose(a);
 
     std::cout << "\n--- rowEchelon(A) ---\n";
-    rowEchelon(a).print();
+    std::cout << rowEchelon(a);
 
     std::cout << "\n--- det(A) (expected: 8) ---\n";
     std::cout << det(a) << "\n";
 
     std::cout << "\n--- inverse(A) ---\n";
-    inverse(a).print();
+    std::cout << inverse(a);
 
     std::cout << "\n--- A * inverse(A) (expected: identity) ---\n";
-    (a * inverse(a)).print();
+    std::cout << (a * inverse(a));
 
     std::cout << "\n--- rank(A) (expected: 3) ---\n";
     std::cout << rank(a) << "\n";
 
     std::cout << "\n--- pow(A, 0) (expected: identity) ---\n";
-    pow(a, 0).print();
+    std::cout << pow(a, 0);
 
     std::cout << "\n--- pow(A, 2) (expected: A * A) ---\n";
-    pow(a, 2).print();
+    std::cout << pow(a, 2);
 
     std::cout << "\n--- pow(A, -1) (expected: inverse(A)) ---\n";
-    pow(a, -1).print();
+    std::cout << pow(a, -1);
 
     std::cout << "\n--- trace(A) (expected: 7) ---\n";
     std::cout << a.trace() << "\n";
@@ -74,7 +74,7 @@ int main()
     b(2, 2) = 2;
 
     std::cout << "\n=== Matrix B (singular) ===\n";
-    b.print();
+    std::cout << b;
 
     std::cout << "\n--- det(B) (expected: 0) ---\n";
     std::cout << det(b) << "\n";
@@ -92,7 +92,7 @@ int main()
     c(2, 2) = 1;
 
     std::cout << "\n=== Matrix C (identity) ===\n";
-    c.print();
+    std::cout << c;
 
     std::cout << "\n--- isIdentity(C) (expected: 1) ---\n";
     std::cout << c.isIdentity() << "\n";
@@ -113,13 +113,13 @@ int main()
     d(1, 2) = 6;
 
     std::cout << "\n=== Matrix D (2x3) ===\n";
-    d.print();
+    std::cout << d;
 
     std::cout << "\n--- transpose(D) ---\n";
-    transpose(d).print();
+    std::cout << transpose(d);
 
     std::cout << "\n--- rowEchelon(D) ---\n";
-    rowEchelon(d).print();
+    std::cout << rowEchelon(d);
 
     std::cout << "\n--- rank(D) (expected: 2) ---\n";
     std::cout << rank(d) << "\n";
@@ -140,16 +140,16 @@ int main()
     std::cout << "\n=== Arithmetic (E and F) ===\n";
 
     std::cout << "\n--- E + F ---\n";
-    (e + f).print();
+    std::cout << (e + f);
 
     std::cout << "\n--- E - F ---\n";
-    (e - f).print();
+    std::cout << (e - f);
 
     std::cout << "\n--- E * F ---\n";
-    (e * f).print();
+    std::cout << (e * f);
 
     std::cout << "\n--- E * 2.0 ---\n";
-    (e * 2.0).print();
+    std::cout << (e * 2.0);
 
     std::cout << "\n--- E == E (expected: 1) ---\n";
     std::cout << (e == e) << "\n";
@@ -161,7 +161,7 @@ int main()
     Matrix<double> g(2, 2);
     g.fill(7.0);
     std::cout << "\n=== Matrix G (filled with 7) ===\n";
-    g.print();
+    std::cout << g;
 
     // Compound assignment operators
     Matrix<double> h(2, 2);
@@ -178,13 +178,12 @@ int main()
 
     std::cout << "\n=== Compound Assignment Operators (H and K) ===\n";
 
-    std::cout << "\n--- H before +=  ---\n";
-    h.print();
+    std::cout << "\n--- H before += ---\n";
+    std::cout << h;
     h += k;
     std::cout << "\n--- H += K (expected: E + F result) ---\n";
-    h.print();
+    std::cout << h;
 
-    // reset h
     h(0, 0) = 1;
     h(0, 1) = 2;
     h(1, 0) = 3;
@@ -192,9 +191,8 @@ int main()
 
     h -= k;
     std::cout << "\n--- H -= K (expected: E - F result) ---\n";
-    h.print();
+    std::cout << h;
 
-    // reset h
     h(0, 0) = 1;
     h(0, 1) = 2;
     h(1, 0) = 3;
@@ -202,9 +200,8 @@ int main()
 
     h *= k;
     std::cout << "\n--- H *= K (expected: E * F result) ---\n";
-    h.print();
+    std::cout << h;
 
-    // reset h
     h(0, 0) = 1;
     h(0, 1) = 2;
     h(1, 0) = 3;
@@ -212,12 +209,11 @@ int main()
 
     h *= 2.0;
     std::cout << "\n--- H *= 2.0 (expected: E * 2.0 result) ---\n";
-    h.print();
+    std::cout << h;
 
     // Exception handling tests
     std::cout << "\n=== Exception Handling Tests ===\n";
 
-    // Test 1: dimension mismatch in addition
     try
     {
         Matrix<double> x(2, 2);
@@ -229,7 +225,6 @@ int main()
         std::cout << "Caught: " << e.what() << "\n";
     }
 
-    // Test 2: singular matrix inverse
     try
     {
         Matrix<double> x(2, 2);
@@ -244,7 +239,6 @@ int main()
         std::cout << "Caught: " << e.what() << "\n";
     }
 
-    // Test 3: det on non-square matrix
     try
     {
         Matrix<double> x(2, 3);
@@ -255,7 +249,6 @@ int main()
         std::cout << "Caught: " << e.what() << "\n";
     }
 
-    // Test 4: index out of bounds with at()
     try
     {
         Matrix<double> x(2, 2);
@@ -266,7 +259,6 @@ int main()
         std::cout << "Caught: " << e.what() << "\n";
     }
 
-    // Test 5: negative power on singular matrix
     try
     {
         Matrix<double> x(2, 2);
