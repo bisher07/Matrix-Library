@@ -176,6 +176,24 @@ public:
         return sub_Matrix;
     }
 
+    Matrix<T> operator|(const Matrix<T> &a) const
+    {
+        if (matrix_Rows != a.getRows())
+            throw std::invalid_argument("Matrix row counts must match for horizontal concatenation.");
+
+        Matrix<T> result(matrix_Rows, matrix_Cols + a.getCols());
+
+        for (int row = 0; row < matrix_Rows; row++)
+            for (int col = 0; col < matrix_Cols; col++)
+                result(row, col) = matrix_Data[row][col];
+
+        for (int row = 0; row < matrix_Rows; row++)
+            for (int col = matrix_Cols; col < result.getCols(); col++)
+                result(row, col) = a(row, col - matrix_Cols);
+
+        return result;
+    }
+
     int getRows() const
     {
         return matrix_Rows;
