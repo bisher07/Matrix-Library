@@ -280,7 +280,7 @@ int main()
         pl(0, 0) = 1;
         pl(0, 1) = 2;
         Matrix<double> result = empty | pl;
-        std::cout << "\n--- Empty | PL (expected: PL) ---\n";
+        std::cout << "\n--- Empty | PL (expected: Empty | PL) ---\n";
         std::cout << result;
     }
     catch (const std::invalid_argument &e)
