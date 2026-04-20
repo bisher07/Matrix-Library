@@ -62,6 +62,11 @@ public:
         return true;
     }
 
+    bool operator!=(const Matrix<T> &a) const
+    {
+        return !(*this == a);
+    }
+
     Matrix<T> &operator+=(const Matrix<T> &a)
     {
         if (matrix_Rows != a.getRows() || matrix_Cols != a.getCols())
@@ -270,11 +275,39 @@ public:
         return sum;
     }
 
+    T sum() const
+    {
+        T Sum = 0;
+
+        for (int row = 0; row < matrix_Rows; row++)
+            for (int col = 0; col < matrix_Cols; col++)
+                Sum += matrix_Data[row][col];
+
+        return Sum;
+    }
+
     void fill(T value)
     {
         for (int row = 0; row < matrix_Rows; row++)
             for (int col = 0; col < matrix_Cols; col++)
                 matrix_Data[row][col] = value;
+    }
+
+    Matrix<T> subMatrix(int startRow, int endRow, int startCol, int endCol) const
+    {
+        if (startRow < 0 || endRow >= matrix_Rows || startCol < 0 || endCol >= matrix_Cols)
+            throw std::out_of_range("Submatrix indices out of bounds.");
+
+        else if (startRow > endRow || startCol > endCol)
+            throw std::invalid_argument("Invalid submatrix range.");
+
+        Matrix<T> sub(endRow - startRow + 1, endCol - startCol + 1);
+
+        for (int row = 0; row < sub.getRows(); row++)
+            for (int col = 0; col < sub.getCols(); col++)
+                sub(row, col) = matrix_Data[startRow + row][startCol + col];
+
+        return sub;
     }
 
 private:
