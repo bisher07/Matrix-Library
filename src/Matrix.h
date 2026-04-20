@@ -25,7 +25,7 @@ public:
         return matrix_Data[r][c];
     }
 
-    // for reading inside const methods like print()
+    // for reading: double x = a(0,1);
     const T &operator()(int r, int c) const
     {
         return matrix_Data[r][c];
@@ -176,6 +176,7 @@ public:
         return sub_Matrix;
     }
 
+    // Horizontal concatenation.
     Matrix<T> operator|(const Matrix<T> &a) const
     {
         if (matrix_Rows != a.getRows())
@@ -190,6 +191,25 @@ public:
         for (int row = 0; row < matrix_Rows; row++)
             for (int col = matrix_Cols; col < result.getCols(); col++)
                 result(row, col) = a(row, col - matrix_Cols);
+
+        return result;
+    }
+
+    // Vertical concatenation.
+    Matrix<T> operator/(const Matrix<T> &a)
+    {
+        if (matrix_Cols != a.getCols())
+            throw std::invalid_argument("Matrix column counts must match for vertical concatenation.");
+
+        Matrix<T> result(matrix_Rows + a.getRows(), matrix_Cols);
+
+        for (int row = 0; row < matrix_Rows; row++)
+            for (int col = 0; col < matrix_Cols; col++)
+                result(row, col) = matrix_Data[row][col];
+
+        for (int row = matrix_Rows; row < result.getRows(); row++)
+            for (int col = 0; col < matrix_Cols; col++)
+                result(row, col) = a(row - matrix_Rows, col);
 
         return result;
     }
