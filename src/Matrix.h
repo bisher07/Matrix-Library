@@ -3,6 +3,7 @@
 #include <vector>
 #include <iomanip>
 #include <stdexcept>
+#include <initializer_list>
 
 template <typename T>
 class Matrix
@@ -17,6 +18,24 @@ public:
     {
         if (rows <= 0 || cols <= 0)
             throw std::invalid_argument("Matrix dimensions must be positive.");
+    }
+    Matrix(std::initializer_list<std::initializer_list<T>> values)
+    {
+        matrix_Rows = values.size();
+        matrix_Cols = values.begin()->size();
+
+        matrix_Data.resize(matrix_Rows, std::vector<T>(matrix_Cols, 0));
+
+        auto outerIT = values.begin();
+        for (int row = 0; row < matrix_Rows; row++, outerIT++)
+        {
+            if (static_cast<int>(outerIT->size()) != matrix_Cols)
+                throw std::invalid_argument("All rows must have the same number of columns.");
+
+            auto innerIT = outerIT->begin();
+            for (int col = 0; col < matrix_Cols; col++, innerIT++)
+                matrix_Data[row][col] = *innerIT;
+        }
     }
 
     // for writing: a(0,1) = 5.0;

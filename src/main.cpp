@@ -4,17 +4,10 @@ using namespace MatrixOps;
 
 int main()
 {
-    // Matrix A: general 3x3
-    Matrix<double> a(3, 3);
-    a(0, 0) = 2;
-    a(0, 1) = 1;
-    a(0, 2) = 0;
-    a(1, 0) = 1;
-    a(1, 1) = 3;
-    a(1, 2) = 1;
-    a(2, 0) = 0;
-    a(2, 1) = 1;
-    a(2, 2) = 2;
+    // Matrix A: general 3x3 (initializer list)
+    Matrix<double> a = {{2, 1, 0},
+                        {1, 3, 1},
+                        {0, 1, 2}};
 
     std::cout << "=== Matrix A ===\n";
     std::cout << a;
@@ -49,6 +42,9 @@ int main()
     std::cout << "\n--- trace(A) (expected: 7) ---\n";
     std::cout << a.trace() << "\n";
 
+    std::cout << "\n--- sum(A) (expected: 11) ---\n";
+    std::cout << a.sum() << "\n";
+
     std::cout << "\n--- isSquare(A) (expected: 1) ---\n";
     std::cout << a.isSquare() << "\n";
 
@@ -61,17 +57,13 @@ int main()
     std::cout << "\n--- isSingular(A) (expected: 0) ---\n";
     std::cout << isSingular(a) << "\n";
 
+    std::cout << "\n--- subMatrix(A, 0, 1, 0, 1) ---\n";
+    std::cout << a.subMatrix(0, 1, 0, 1);
+
     // Matrix B: singular 3x3
-    Matrix<double> b(3, 3);
-    b(0, 0) = 1;
-    b(0, 1) = 2;
-    b(0, 2) = 3;
-    b(1, 0) = 2;
-    b(1, 1) = 4;
-    b(1, 2) = 6;
-    b(2, 0) = 0;
-    b(2, 1) = 1;
-    b(2, 2) = 2;
+    Matrix<double> b = {{1, 2, 3},
+                        {2, 4, 6},
+                        {0, 1, 2}};
 
     std::cout << "\n=== Matrix B (singular) ===\n";
     std::cout << b;
@@ -86,10 +78,9 @@ int main()
     std::cout << isSingular(b) << "\n";
 
     // Matrix C: identity 3x3
-    Matrix<double> c(3, 3);
-    c(0, 0) = 1;
-    c(1, 1) = 1;
-    c(2, 2) = 1;
+    Matrix<double> c = {{1, 0, 0},
+                        {0, 1, 0},
+                        {0, 0, 1}};
 
     std::cout << "\n=== Matrix C (identity) ===\n";
     std::cout << c;
@@ -104,13 +95,8 @@ int main()
     std::cout << c.trace() << "\n";
 
     // Matrix D: non-square 2x3
-    Matrix<double> d(2, 3);
-    d(0, 0) = 1;
-    d(0, 1) = 2;
-    d(0, 2) = 3;
-    d(1, 0) = 4;
-    d(1, 1) = 5;
-    d(1, 2) = 6;
+    Matrix<double> d = {{1, 2, 3},
+                        {4, 5, 6}};
 
     std::cout << "\n=== Matrix D (2x3) ===\n";
     std::cout << d;
@@ -124,18 +110,15 @@ int main()
     std::cout << "\n--- rank(D) (expected: 2) ---\n";
     std::cout << rank(d) << "\n";
 
-    // Arithmetic operators
-    Matrix<double> e(2, 2);
-    e(0, 0) = 1;
-    e(0, 1) = 2;
-    e(1, 0) = 3;
-    e(1, 1) = 4;
+    std::cout << "\n--- sum(D) (expected: 21) ---\n";
+    std::cout << d.sum() << "\n";
 
-    Matrix<double> f(2, 2);
-    f(0, 0) = 5;
-    f(0, 1) = 6;
-    f(1, 0) = 7;
-    f(1, 1) = 8;
+    // Arithmetic operators
+    Matrix<double> e = {{1, 2},
+                        {3, 4}};
+
+    Matrix<double> f = {{5, 6},
+                        {7, 8}};
 
     std::cout << "\n=== Arithmetic (E and F) ===\n";
 
@@ -151,11 +134,29 @@ int main()
     std::cout << "\n--- E * 2.0 ---\n";
     std::cout << (e * 2.0);
 
+    std::cout << "\n--- 2.0 * E (scalar on left) ---\n";
+    std::cout << (2.0 * e);
+
     std::cout << "\n--- E == E (expected: 1) ---\n";
     std::cout << (e == e) << "\n";
 
     std::cout << "\n--- E == F (expected: 0) ---\n";
     std::cout << (e == f) << "\n";
+
+    std::cout << "\n--- E != F (expected: 1) ---\n";
+    std::cout << (e != f) << "\n";
+
+    std::cout << "\n--- E != E (expected: 0) ---\n";
+    std::cout << (e != e) << "\n";
+
+    // Concatenation
+    std::cout << "\n=== Concatenation ===\n";
+
+    std::cout << "\n--- E | F (horizontal) ---\n";
+    std::cout << (e | f);
+
+    std::cout << "\n--- E / F (vertical) ---\n";
+    std::cout << (e / f);
 
     // fill
     Matrix<double> g(2, 2);
@@ -164,17 +165,11 @@ int main()
     std::cout << g;
 
     // Compound assignment operators
-    Matrix<double> h(2, 2);
-    h(0, 0) = 1;
-    h(0, 1) = 2;
-    h(1, 0) = 3;
-    h(1, 1) = 4;
+    Matrix<double> h = {{1, 2},
+                        {3, 4}};
 
-    Matrix<double> k(2, 2);
-    k(0, 0) = 5;
-    k(0, 1) = 6;
-    k(1, 0) = 7;
-    k(1, 1) = 8;
+    Matrix<double> k = {{5, 6},
+                        {7, 8}};
 
     std::cout << "\n=== Compound Assignment Operators (H and K) ===\n";
 
@@ -184,32 +179,34 @@ int main()
     std::cout << "\n--- H += K (expected: E + F result) ---\n";
     std::cout << h;
 
-    h(0, 0) = 1;
-    h(0, 1) = 2;
-    h(1, 0) = 3;
-    h(1, 1) = 4;
-
+    h = {{1, 2}, {3, 4}};
     h -= k;
     std::cout << "\n--- H -= K (expected: E - F result) ---\n";
     std::cout << h;
 
-    h(0, 0) = 1;
-    h(0, 1) = 2;
-    h(1, 0) = 3;
-    h(1, 1) = 4;
-
+    h = {{1, 2}, {3, 4}};
     h *= k;
     std::cout << "\n--- H *= K (expected: E * F result) ---\n";
     std::cout << h;
 
-    h(0, 0) = 1;
-    h(0, 1) = 2;
-    h(1, 0) = 3;
-    h(1, 1) = 4;
-
+    h = {{1, 2}, {3, 4}};
     h *= 2.0;
     std::cout << "\n--- H *= 2.0 (expected: E * 2.0 result) ---\n";
     std::cout << h;
+
+    // at() bounds checked access
+    std::cout << "\n=== at() bounds checked access ===\n";
+    std::cout << "\n--- a.at(0,0) (expected: 2) ---\n";
+    std::cout << a.at(0, 0) << "\n";
+    a.at(0, 0) = 99.0;
+    std::cout << "\n--- a.at(0,0) after write (expected: 99) ---\n";
+    std::cout << a.at(0, 0) << "\n";
+    a.at(0, 0) = 2.0; // reset
+
+    // subMatrix
+    std::cout << "\n=== subMatrix ===\n";
+    std::cout << "\n--- a.subMatrix(0,1,0,1) (expected: top-left 2x2) ---\n";
+    std::cout << a.subMatrix(0, 1, 0, 1);
 
     // Exception handling tests
     std::cout << "\n=== Exception Handling Tests ===\n";
@@ -227,11 +224,7 @@ int main()
 
     try
     {
-        Matrix<double> x(2, 2);
-        x(0, 0) = 1;
-        x(0, 1) = 2;
-        x(1, 0) = 2;
-        x(1, 1) = 4;
+        Matrix<double> x = {{1, 2}, {2, 4}};
         inverse(x);
     }
     catch (const std::invalid_argument &e)
@@ -261,11 +254,7 @@ int main()
 
     try
     {
-        Matrix<double> x(2, 2);
-        x(0, 0) = 1;
-        x(0, 1) = 2;
-        x(1, 0) = 2;
-        x(1, 1) = 4;
+        Matrix<double> x = {{1, 2}, {2, 4}};
         pow(x, -2);
     }
     catch (const std::invalid_argument &e)
@@ -275,17 +264,33 @@ int main()
 
     try
     {
-        Matrix<double> empty(2, 2, 0);
-        Matrix<double> pl(1, 2);
-        pl(0, 0) = 1;
-        pl(0, 1) = 2;
-        Matrix<double> result = empty | pl;
-        std::cout << "\n--- Empty | PL (expected: Empty | PL) ---\n";
-        std::cout << result;
+        Matrix<double> x = {{1, 2, 3}, {4, 5, 6}};
+        Matrix<double> y = {{1, 2}, {3, 4}, {5, 6}};
+        x | y;
     }
     catch (const std::invalid_argument &e)
     {
-        std::cout << "Caught: " << e.what() << '\n';
+        std::cout << "Caught: " << e.what() << "\n";
+    }
+
+    try
+    {
+        Matrix<double> x = {{1, 2}, {3, 4}};
+        Matrix<double> y = {{1, 2, 3}, {4, 5, 6}};
+        x / y;
+    }
+    catch (const std::invalid_argument &e)
+    {
+        std::cout << "Caught: " << e.what() << "\n";
+    }
+
+    try
+    {
+        Matrix<double> x(0, 2);
+    }
+    catch (const std::invalid_argument &e)
+    {
+        std::cout << "Caught: " << e.what() << "\n";
     }
 
     return 0;
